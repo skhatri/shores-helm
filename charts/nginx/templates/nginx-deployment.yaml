@@ -5,7 +5,7 @@ metadata:
   namespace: default
   annotations:
     app.kubernetes.io/artifact-info: '{"name":"nginx","image":"nginx:1.21.6","version":"1.21.6","namespace":"default"}'
-    app.kubernetes.io/deployment-info: '{"user":"skhatri","releaseId":"202203081654","action":"deploy","command":"deploy spec/user/release-set/release-1.yaml","created":"2022-03-08T16:54:17+11:00","changeRef":"CRQ000019921"}'
+    app.kubernetes.io/deployment-info: '{"user":"skhatri","releaseId":"202203081903","action":"deploy","command":"deploy spec/user/release-set/release-1.yaml","created":"2022-03-08T19:03:00+11:00","changeRef":"CRQ000019921"}'
 
   labels:
     app.kubernetes.io/instance: 'nginx'
