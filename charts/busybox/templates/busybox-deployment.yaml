@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox
+  namespace: default
+  annotations:
+    app.kubernetes.io/artifact-info: '{"name":"busybox","image":"busybox:1.35.0","version":"1.35.0","namespace":"default"}'
+    app.kubernetes.io/deployment-info: '{"user":"skhatri","releaseId":"202203081654","action":"deploy","command":"deploy spec/user/release-set/release-1.yaml","created":"2022-03-08T16:54:17+11:00","changeRef":"CRQ000019921"}'
+
+  labels:
+    app.kubernetes.io/instance: 'busybox'
+    app.kubernetes.io/managed-by: 'Helm'
+    app.kubernetes.io/name: 'busybox'
+    app.kubernetes.io/release: 'busybox'
+    app.kubernetes.io/version: '1.35.0'
+    helm.sh/chart: 'busybox-1.35.0'
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: busybox
+      app.kubernetes.io/name: busybox
+
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: busybox
+        app.kubernetes.io/name: busybox
+
+    spec:
+      serviceAccountName: busybox
+      containers:
+        - name: busybox
+          image: busybox:1.35.0
+          imagePullPolicy: IfNotPresent
+          
+          
+          
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+          env:
+            - name: "BUSYBOX_APP_NAME"
+              value: "busybox"
+            - name: "PROXY_HOST"
+              value: "http://localhost:8080"
+            - name: "PROXY_PORT"
+              value: "-1"
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: tools
+
+      affinity: { }
+      tolerations: [ ]
+      volumes:
+        - name: tmp-volume
+          emptyDir: { }
